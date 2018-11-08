@@ -1,3 +1,4 @@
 init.sh
-include/
+include
+oceanic/__pycache__/
 
