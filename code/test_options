@@ -1,0 +1,101 @@
+# this is a configparser configuration file
+# you may start lines as comments with '#' or ';'
+# you may start inline comments with ';' only
+#
+# optional arguments in this file have default values
+# if no default value is listed, that argument is required
+
+[general]
+output_directory = /mnt/ceph/users/abeane/oc_evaporation_pt1/test/dump
+ncpu = 12 ; number of cpus available (default: 1)
+gpu_enabled = false ; whether or not to use the gpu version of ph4 (default: false)
+ngpu = 1 ; number of gpus available (default: 1)
+
+timestep = 0.1 ; timestep for cluster integrati
+write_frequency = 50 ; how often to write cluster snapshot to disk (default: 10)
+
+[simulation]
+simulation_directory = /mnt/ceph/users/firesims/fire2/metaldiff/m12i_res7100/
+cache_directory = /mnt/ceph/users/abeane/oc_nbody/cache/
+startnum = 580      ; first snapshot index (where the oc sim starts)
+endnum = 585        ; last snapshot index
+num_prior = 3       ; the number of snapshots loaded before the first snapshot (default: 3)
+
+
+star_softening_in_pc = 11.2 ; star softening [pc]
+dark_softening_in_pc = 112.0 ; dark softening [pc]
+
+# optionally specify characteristic mass, overrides star_softening_in_pc
+# see paper for details
+star_char_mass = 0.048 ; characteristic softening mass [Msun]
+# dark_char_mass = 0.048
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# NOTE: the best choice for softening lengths is NOT necessarily the  #
+# softening lengths in the original simulation!                       #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+[force_calculation]
+# # grid setup parameters # #
+Rmax = 50.0         ; max R to retain particles for force calculation [kpc]
+theta = 0.5         ; opening angle for tree
+
+axisymmetric = false ; compute evolution in an axisymmetric potential (default: false)
+axi_Rinit = 8 ; axisymmetric initial radius [kpc] (required if axi)
+axi_vcircfrac = 1.05 ; what to multiply vcirc by for vinit (default: 1)
+axi_zinit = 0.500 ; initial height [kpc] (default: 0)
+
+# # interpolation parameters # #
+nclose = 150 ; number of close points to use in interpolation (default: 150)
+basis = phs3 ; basis for rbf (default: phs3)
+order = 5    ; order for rbf (default: 5)
+eps   = 1.0  ; softening parameter (default: 1)
+
+[cluster]
+N = 1024        ; number of stars in the cluster
+W0 = 3          ; king parameter
+use_kroupa = true ; whether to assign masses according to kroupa IMF (default: true)
+kroupa_max = 10.0 ; max mass for kroupa IMF [Msun] (default: 100.0)
+Mcluster = 1e3  ; mass of cluster, not necessary if using kroupa [Msun] (default: None)
+Rcluster = 0.8  ; size of cluster [pc]
+softening = 0.01 ; softening length for cluster [pc]
+
+nbodycode = ph4      ; code to use (options: ph4)
+timestep = 0.1       ; timestep for cluster integrator [Myr]
+tend  = 75.0         ; ending time for cluster
+
+# this will remove particles which move further than eject_cut pc
+# away from the median of the star cluster
+# very useful
+eject_cut = 300  ; (default: 300) [kpc]
+
+[starting_star]
+ss_Rmin = 7.0   ; min R for starting star [kpc]
+ss_Rmax = 9.0   ; max R ... [kpc]
+ss_zmin = -0.1  ; min z for starting star [kpc]
+ss_zmax = 0.1   ; max z ... [kpc]
+ss_seed = 1776  ; seed for ss rng (default: 1776)
+ss_agemin_in_Gyr = 0 ; min age for ss (default: 0) [Gyr]
+ss_agemax_in_Gyr = 1 ; max age for ss (default: 1) [Gyr]
+# ss_id = 12354
+# can also provide ss_id, will override Rmin, Rmax, etc...
+
+ss_action_cuts = true ; can specify to make cuts based on actions (default: false)
+Jr_min = 0.0 ; minimum Jr [kpc km/s]
+Jr_max = 6.0 ; maximum Jr [kpc km/s]
+Jz_min = 0.0 ; minimum Jz [kpc km/s]
+Jz_max = 6.0 ; maximum Jz [kpc km/s]
+
+[grid]
+# see paper for explanation of x, y
+grid_x_size_in_kpc = 0.6 ; size of grid in "x" direction [kpc]
+grid_y_size_in_kpc = 0.6 ; size of grid in "y" direction [kpc]
+grid_z_size_in_kpc = 0.6 ; size of grid in "z" direction [kpc]
+grid_resolution    = 0.005 ; grid resolution [pc]
+grid_fine_x_size_in_kpc = 0.02 ; OPTIONAL
+grid_fine_y_size_in_kpc = 0.02
+grid_fine_z_size_in_kpc = 0.02
+grid_fine_resolution = 0.0005
+
+
+grid_seed = 1776       ; starting seed for grid generation, see paper for details (default: 1776)
