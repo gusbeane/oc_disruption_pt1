@@ -37,7 +37,7 @@ class options_reader(object):
             self.options['dark_char_mass'] = float(self.options['dark_char_mass'])
 
         # read in force_calculation parameters
-        for opt in ['Rmax', 'theta']:
+        for opt in ['Rmax', 'theta', 'period']:
             self._read_required_option_('force_calculation', opt)
 
         self._read_optional_option_('force_calculation', 'nclose', '150')
@@ -129,7 +129,7 @@ class options_reader(object):
                          'Rcluster',
                          'softening', 'eject_cut', 'timestep', 'tend', 'eps'
                          'star_softening_in_pc', 'dark_softening_in_pc',
-                         'Rmax', 'theta',
+                         'Rmax', 'theta', 'period',
                          'grid_x_size_in_kpc', 'grid_y_size_in_kpc',
                          'grid_z_size_in_kpc', 'grid_resolution', 'kroupa_max',
                          'Jr_min', 'Jr_max', 'Jz_min', 'Jz_max']

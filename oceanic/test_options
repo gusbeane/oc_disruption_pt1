@@ -39,6 +39,7 @@ star_char_mass = 0.048 ; characteristic softening mass [Msun]
 # # grid setup parameters # #
 Rmax = 30.0         ; max R to retain particles for force calculation [kpc]
 theta = 0.5         ; opening angle for tree
+period = 234.5      ; period to rotate galaxy [Myr]
 
 axisymmetric = false ; compute evolution in an axisymmetric potential (default: false)
 axi_Rinit = 8 ; axisymmetric initial radius [kpc] (required if axi)
