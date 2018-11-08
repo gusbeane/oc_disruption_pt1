@@ -43,6 +43,16 @@ def evolve_cluster_in_galaxy(options_file):
         stars.vy += vc
         stars.z += opt.options['axi_zinit'] | units.kpc
 
+    else:
+        pos = galaxy_code.chosen_position_z0
+        vel = galaxy_code.chosen_velocity_z0
+        stars.x += pos[0] | units.kpc
+        stars.y += pos[1] | units.kpc
+        stars.z += pos[2] | units.kpc
+        stars.vx += vel[0] | units.kms
+        stars.vy += vel[1] | units.kms
+        stars.vz += vel[2] | units.kms
+
     channel = stars.new_channel_to(cluster_code.particles)
     channel.copy_attributes(["x", "y", "z", "vx", "vy", "vz"])
 

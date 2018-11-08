@@ -230,12 +230,12 @@ class gizmo_interface(object):
     # TODO clean up starting star
     def _init_starting_star_(self):
         # TEST
-        self.chosen_id = 10
-        return None # just for testing
+        #self.chosen_id = 10
+        #return None # just for testing
         
         # END TEST
 
-        self.chosen_position_z0, self.chosen_index_z0, self.chosen_id = \
+        self.chosen_position_z0, self.chosen_velocity_z0, self.chosen_index_z0, self.chosen_id = \
                             self.starting_star(self.ss_Rmin, self.ss_Rmax,
                                                self.ss_zmin, self.ss_zmax,
                                                self.ss_agemin_in_Gyr,
@@ -285,9 +285,11 @@ class gizmo_interface(object):
                     if Jrbool and Jzbool:
                         pos = self.first_snapshot['star'].\
                                 prop('host.distance.principal')
+                        vel = self.first_snapshot['star'].\
+                                prop('host.velocity.principal')
                         chosen_one = np.where(self.first_snapshot['star']['id']
                                               == ss_id)[0]
-                        return pos[chosen_one], chosen_one, ss_id
+                        return pos[chosen_one], vel[chosen_one], chosen_one, ss_id
 
             chosen_one = np.random.choice(keys)
             chosen_id = self.first_snapshot['star']['id'][chosen_one]
