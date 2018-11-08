@@ -1,4 +1,2 @@
-# oceanic
-Implementing the BRIDGE framework for open clusters in MW zoom-in simulations.
+# On Open Cluster Disruption I. Action Space Evolution
 
-To be renamed to oceanic - Open Cluster Evolution Amongst New Incredible Cosmologicalsimulations
