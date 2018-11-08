@@ -2,10 +2,6 @@ import matplotlib; matplotlib.use('agg')
 
 import numpy as np
 import gizmo_analysis as gizmo
-from scipy import interpolate
-from scipy.spatial import cKDTree
-from rbf.interpolate import RBFInterpolant
-from oceanic.grid_cartesian import grid
 from amuse.units import units
 from oceanic.options import options_reader
 from oceanic.analysis import agama_wrapper
@@ -14,8 +10,6 @@ import pickle
 from pykdgrav import ConstructKDTree, GetAccelParallel
 from astropy.constants import G as G_astropy
 import astropy.units as u
-
-from multiprocessing import Pool
 
 import sys
 import os
@@ -45,7 +39,7 @@ class gizmo_interface(object):
 
         self.evolve_model(0 | units.Myr)
 
-    def _read_snapshots_(self, first_only=False):
+    def _read_snapshots_(self):
         # read in first snapshot, get rotation matrix
 
         # just gonna take a peak into the sim and see if we have it in cache
@@ -86,12 +80,6 @@ class gizmo_interface(object):
         # store some other relevant information
         self.first_snapshot_time_in_Myr =\
             self.first_snapshot.snapshot['time'] * 1000.0
-
-    def _gen_pos_or_vel_interpolator_(self, pos_or_vel):
-        interpolators = np.zeros(3).tolist()
-        for i in range(3):
-            interpolators[i] = interpolate.splrep(self.time_in_Myr, pos_or_vel[:,i])
-        return interpolators
 
     def _init_kdtree_(self, snap=self.first_snapshot):
         # first exclude starting star
