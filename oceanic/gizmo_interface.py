@@ -81,7 +81,21 @@ class gizmo_interface(object):
         self.first_snapshot_time_in_Myr =\
             self.first_snapshot.snapshot['time'] * 1000.0
 
-    def _init_kdtree_(self, snap=self.first_snapshot):
+        self._clean_Rmag_(self.first_snapshot)
+
+    def _clean_Rmag_(self, snap):
+        # cleans out all particles greater than Rmag from galactic center
+        for key in snap.keys():
+            rmag = snap[key].prop('host.distance.total')
+            rmag_keys = np.where(rmag < self.Rmax)[0]
+            for dict_key in snap[key].keys():
+                snap[key][dict_key] = snap[key][dict_key][rmag_keys]
+        return snap
+
+    def _init_kdtree_(self, snap=None):
+        if snap is None:
+            snap = self.first_snapshot
+        
         # first exclude starting star
         ss_key = np.where(snap['star']['id'] != self.chosen_id)[0]
 
@@ -151,14 +165,9 @@ class gizmo_interface(object):
         position = self._rotate_position_(position, self._time_)
 
         accel = GetAccelParallel(position, self.tree, self.G, self.theta)
-        if single:
-            ax = accel[0] | (units.kms)**2/units.kpc
-            ay = accel[1] | (units.kms)**2/units.kpc
-            az = accel[2] | (units.kms)**2/units.kpc
-        else:
-            ax = accel[:,0] | (units.kms)**2/units.kpc
-            ay = accel[:,1] | (units.kms)**2/units.kpc
-            az = accel[:,2] | (units.kms)**2/units.kpc
+        ax = accel[:,0] | units.kms/units.Myr
+        ay = accel[:,1] | units.kms/units.Myr
+        az = accel[:,2] | units.kms/units.Myr
         return ax, ay, az
 
     def _rotate_position_(self, pos, t):
@@ -220,6 +229,12 @@ class gizmo_interface(object):
 
     # TODO clean up starting star
     def _init_starting_star_(self):
+        # TEST
+        self.chosen_id = 10
+        return None # just for testing
+        
+        # END TEST
+
         self.chosen_position_z0, self.chosen_index_z0, self.chosen_id = \
                             self.starting_star(self.ss_Rmin, self.ss_Rmax,
                                                self.ss_zmin, self.ss_zmax,

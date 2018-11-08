@@ -37,7 +37,7 @@ star_char_mass = 0.048 ; characteristic softening mass [Msun]
 
 [force_calculation]
 # # grid setup parameters # #
-Rmax = 50.0         ; max R to retain particles for force calculation [kpc]
+Rmax = 30.0         ; max R to retain particles for force calculation [kpc]
 theta = 0.5         ; opening angle for tree
 
 axisymmetric = false ; compute evolution in an axisymmetric potential (default: false)
